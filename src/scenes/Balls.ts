@@ -1,13 +1,14 @@
 import * as THREE from "three";
+import SceneBase from "./SceneBase";
 
 declare var window: Window;
 
-class PostProcess extends THREE.Scene {
+class Balls extends SceneBase{
   public camera: THREE.PerspectiveCamera;
   private _timer: number = 0;
 
-  constructor() {
-    super();
+  constructor(gui) {
+    super(gui);
     this._init();
   }
 
@@ -54,4 +55,4 @@ class PostProcess extends THREE.Scene {
   };
 }
 
-export default PostProcess;
+export default Balls;

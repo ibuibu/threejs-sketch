@@ -8,8 +8,9 @@ class SceneBase extends THREE.Scene {
   public gui: dat.GUI;
   public _folder: dat.GUI;
 
-  constructor() {
+  constructor(gui: dat.GUI) {
     super();
+    this.gui = gui;
     this._initialize();
   }
 
@@ -33,7 +34,7 @@ class SceneBase extends THREE.Scene {
 
   public setGuiFolder = (isDisplayed: boolean) => {
     if (isDisplayed) {
-      this._folder = this.gui.addFolder("0");
+      this._folder = this.gui.addFolder(this.constructor.name);
     } else {
       if (this._folder) {
         this.gui.removeFolder(this._folder);

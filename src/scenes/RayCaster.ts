@@ -13,8 +13,8 @@ class Raycaster extends SceneBase {
   private _mousePosition: MousePosition;
   private _meshList: any[] = [];
 
-  constructor() {
-    super();
+  constructor(gui) {
+    super(gui);
     this._init();
   }
 

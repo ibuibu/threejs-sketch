@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import VideoTexture from "./scenes/VideoTexture";
 import Raycaster from "./scenes/RayCaster";
-import PostProcess from "./scenes/PostProcess";
+import Balls from "./scenes/Balls";
 import PostProcessController from "./utils/PostProcessController";
 import * as dat from "dat.gui";
 
@@ -30,8 +30,8 @@ window.addEventListener("DOMContentLoaded", () => {
   let scenes = [];
   // SET SOME SCENES!!!!
   scenes.push(new VideoTexture(gui));
-  scenes.push(new Raycaster());
-  scenes.push(new PostProcess());
+  scenes.push(new Raycaster(gui));
+  scenes.push(new Balls(gui));
 
   const ppc = new PostProcessController(renderer, gui);
   ppc.setScene(scenes[params.sceneNo]);
@@ -52,7 +52,7 @@ window.addEventListener("DOMContentLoaded", () => {
       for (let i = 0; i < scenes.length; i++) {
         if (i === +params.sceneNo) {
           scenes[params.sceneNo].setGuiFolder(true);
-        }else{
+        } else {
           scenes[i].setGuiFolder(false);
         }
       }

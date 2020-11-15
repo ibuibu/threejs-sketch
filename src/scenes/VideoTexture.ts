@@ -11,7 +11,7 @@ class VideoTexture extends SceneBase{
   private _timer: number = 0;
 
   constructor(gui: dat.GUI) {
-    super();
+    super(gui);
     this.gui = gui;
     this._init();
   }
@@ -38,7 +38,7 @@ class VideoTexture extends SceneBase{
           this._box.material = material;
         },
       };
-      this._folder = this.gui.addFolder("0");
+      this._folder = this.gui.addFolder(this.constructor.name);
       this._folder.add(params, "getCamera");
     } else {
       if (this._folder) {
