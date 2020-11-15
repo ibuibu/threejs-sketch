@@ -4,14 +4,13 @@ declare var window: Window;
 
 class SceneBase extends THREE.Scene {
   public camera: THREE.PerspectiveCamera;
-  private _timer: number = 0;
 
   constructor() {
     super();
-    this._init();
+    this._initialize();
   }
 
-  private _init = () => {
+  public _initialize = () => {
     this.camera = new THREE.PerspectiveCamera(
       45,
       window.innerWidth / window.innerHeight,
@@ -22,10 +21,6 @@ class SceneBase extends THREE.Scene {
 
     this._onWindowResize();
     window.addEventListener("resize", this._onWindowResize);
-  };
-
-  public update = (): void => {
-    this._timer += 0.1;
   };
 
   _onWindowResize = () => {

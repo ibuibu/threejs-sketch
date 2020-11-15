@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import MousePosition from "../MousePosition";
+import MousePosition from "../utils/MousePosition";
 
 declare var window: Window;
 
@@ -15,6 +15,9 @@ class Raycaster extends THREE.Scene {
   constructor() {
     super();
     this._init();
+  }
+  public setGuiFolder = (isDisplayed: boolean) => {
+    console.log('aa')
   }
 
   private _init = () => {

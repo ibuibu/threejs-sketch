@@ -1,7 +1,4 @@
 import * as THREE from "three";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { GlitchPass } from "three/examples/jsm/postprocessing/GlitchPass.js";
 
 declare var window: Window;
 
@@ -14,6 +11,10 @@ class PostProcess extends THREE.Scene {
     this._init();
   }
 
+  public setGuiFolder = (isDisplayed: boolean) => {
+    console.log('aa')
+  }
+
   private _init = () => {
     this.camera = new THREE.PerspectiveCamera(
       45,
@@ -23,7 +24,7 @@ class PostProcess extends THREE.Scene {
     );
     this.camera.position.set(0, 0, 1000);
 
-    this.fog = new THREE.Fog(0x000000, 1, 1000);
+    this.fog = new THREE.Fog(0x000000, 50, 2000);
 
     let object = new THREE.Object3D();
     this.add(object);

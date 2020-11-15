@@ -2,13 +2,8 @@ import * as THREE from "three";
 import VideoTexture from "./scenes/VideoTexture";
 import Raycaster from "./scenes/RayCaster";
 import PostProcess from "./scenes/PostProcess";
-import PostProcessController from "./PostProcessController";
+import PostProcessController from "./utils/PostProcessController";
 import * as dat from "dat.gui";
-
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { FilmPass } from "three/examples/jsm/postprocessing/FilmPass.js";
-import { GlitchPass } from "three/examples/jsm/postprocessing/GlitchPass.js";
 
 declare var window: Window;
 
@@ -26,8 +21,6 @@ window.addEventListener("DOMContentLoaded", () => {
   onWindowResize();
   window.addEventListener("resize", onWindowResize, false);
 
-  // const composer = new EffectComposer(renderer);
-
   let gui = new dat.GUI({ name: "my gui" });
   const params = {
     sceneNo: 0,
@@ -41,13 +34,9 @@ window.addEventListener("DOMContentLoaded", () => {
   scenes.push(new PostProcess());
 
   const ppc = new PostProcessController(renderer, gui);
+  ppc.setScene(scenes[params.sceneNo]);
+  ppc.composerReset();
 
-  gui
-    .add(params, "sceneNo", [...Array(scenes.length).keys()])
-    .onFinishChange(() => {
-      ppc.setScene(scenes[params.sceneNo])
-      ppc.composerReset();
-    });
   gui.add(params, "fullScreen").onChange(() => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
@@ -57,7 +46,19 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
-
+  gui
+    .add(params, "sceneNo", [...Array(scenes.length).keys()])
+    .onFinishChange(() => {
+      for (let i = 0; i < scenes.length; i++) {
+        if (i === +params.sceneNo) {
+          scenes[params.sceneNo].setGuiFolder(true);
+        }else{
+          scenes[i].setGuiFolder(false);
+        }
+      }
+      ppc.setScene(scenes[params.sceneNo]);
+      ppc.composerReset();
+    });
 
   const tick = (): void => {
     requestAnimationFrame(tick);

@@ -9,6 +9,7 @@ import { Pass } from "three/examples/jsm/postprocessing/Pass";
 type PassController = {
   pass: Pass;
   isEnabled: boolean;
+  folder: dat.GUI; 
 };
 
 class PostProcessController {
@@ -47,9 +48,8 @@ class PostProcessController {
 
     // Add Passes!!!!
     const passes = [new GlitchPass(), new FilmPass(0.8, 0.325, 256)];
-    // let postProcessings = [];
     for (const pass of passes) {
-      this._passControllers.push({ pass: pass, isEnabled: false });
+      this._passControllers.push({ pass: pass, isEnabled: false, folder: null });
     }
 
     const folder = this._gui.addFolder("PostProcess");
@@ -57,8 +57,10 @@ class PostProcessController {
       folder.add(postParams, postParam).onFinishChange(() => {
         if (postParams[postParam]) {
           this._passControllers[i].isEnabled = true;
+          // this._passControllers[i].folder = folder.addFolder(postParam);
         } else {
           this._passControllers[i].isEnabled = false;
+          // folder.removeFolder(this._passControllers[i].folder);
         }
         this.composerReset();
       });
