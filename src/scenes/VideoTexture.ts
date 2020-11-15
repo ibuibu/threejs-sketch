@@ -6,7 +6,7 @@ declare let window: Window;
 
 class VideoTexture extends SceneBase{
   public gui: dat.GUI;
-  private _folder: dat.GUI;
+  public _folder: dat.GUI;
   private _box: any;
   private _timer: number = 0;
 

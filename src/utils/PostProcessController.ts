@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import * as dat from "dat.gui";
+import SceneBase from '../scenes/SceneBase'
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { FilmPass } from "three/examples/jsm/postprocessing/FilmPass.js";
@@ -17,7 +18,7 @@ class PostProcessController {
   private _gui: dat.GUI;
   private _passControllers: PassController[] = [];
   private _renderer: THREE.WebGLRenderer;
-  private _scene: any; //クラス化したい
+  private _scene: SceneBase;
 
   constructor(renderer: THREE.WebGLRenderer, gui) {
     this.composer = new EffectComposer(renderer);
@@ -25,7 +26,7 @@ class PostProcessController {
     this._init();
   }
 
-  public setScene = (scene: any) => {
+  public setScene = (scene: SceneBase) => {
     this._scene = scene;
   };
 

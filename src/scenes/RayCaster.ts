@@ -1,9 +1,10 @@
 import * as THREE from "three";
+import SceneBase from "./SceneBase";
 import MousePosition from "../utils/MousePosition";
 
 declare var window: Window;
 
-class Raycaster extends THREE.Scene {
+class Raycaster extends SceneBase {
   public name: string = "Raycaster";
   public camera: THREE.PerspectiveCamera;
   private _box: THREE.Mesh;
@@ -15,9 +16,6 @@ class Raycaster extends THREE.Scene {
   constructor() {
     super();
     this._init();
-  }
-  public setGuiFolder = (isDisplayed: boolean) => {
-    console.log('aa')
   }
 
   private _init = () => {
@@ -57,9 +55,6 @@ class Raycaster extends THREE.Scene {
     this.fog = new THREE.Fog(0x000000, 50, 2000);
     this._raycaster = new THREE.Raycaster();
     this._mousePosition = new MousePosition();
-
-    this._onWindowResize();
-    window.addEventListener("resize", this._onWindowResize);
   };
 
   public update = (): void => {
@@ -80,14 +75,6 @@ class Raycaster extends THREE.Scene {
         mesh.material.color.setHex(0xffffff);
       }
     });
-  };
-
-  _onWindowResize = () => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
   };
 }
 

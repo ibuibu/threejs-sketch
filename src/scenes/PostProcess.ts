@@ -11,10 +11,6 @@ class PostProcess extends THREE.Scene {
     this._init();
   }
 
-  public setGuiFolder = (isDisplayed: boolean) => {
-    console.log('aa')
-  }
-
   private _init = () => {
     this.camera = new THREE.PerspectiveCamera(
       45,
@@ -51,19 +47,10 @@ class PostProcess extends THREE.Scene {
     const light = new THREE.DirectionalLight(0xffffff);
     light.position.set(1, 1, 1);
     this.add(light);
-
-
-    this._onWindowResize();
-    window.addEventListener("resize", this._onWindowResize);
   };
 
   public update = (): void => {
     this._timer += 0.1;
-  };
-
-  _onWindowResize = () => {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.camera.updateProjectionMatrix();
   };
 }
 

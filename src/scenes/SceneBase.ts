@@ -1,9 +1,12 @@
 import * as THREE from "three";
+import * as dat from "dat.gui";
 
 declare var window: Window;
 
 class SceneBase extends THREE.Scene {
   public camera: THREE.PerspectiveCamera;
+  public gui: dat.GUI;
+  public _folder: dat.GUI;
 
   constructor() {
     super();
@@ -23,9 +26,20 @@ class SceneBase extends THREE.Scene {
     window.addEventListener("resize", this._onWindowResize);
   };
 
-  _onWindowResize = () => {
+  private _onWindowResize = () => {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
+  };
+
+  public setGuiFolder = (isDisplayed: boolean) => {
+    if (isDisplayed) {
+      this._folder = this.gui.addFolder("0");
+    } else {
+      if (this._folder) {
+        this.gui.removeFolder(this._folder);
+        this._folder = null;
+      }
+    }
   };
 }
 
