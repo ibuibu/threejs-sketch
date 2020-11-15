@@ -1,70 +1,68 @@
 import * as THREE from "three";
-import Donuts from "./donuts";
+import VideoTexture from "./scenes/VideoTexture";
+import Raycaster from "./scenes/RayCaster";
+import PostProcess from "./scenes/PostProcess";
+import PostProcessController from "./PostProcessController";
+import * as dat from "dat.gui";
+
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { FilmPass } from "three/examples/jsm/postprocessing/FilmPass.js";
+import { GlitchPass } from "three/examples/jsm/postprocessing/GlitchPass.js";
 
 declare var window: Window;
 
 window.addEventListener("DOMContentLoaded", () => {
-  const renderer = new THREE.WebGLRenderer();
-  document.body.appendChild(renderer.domElement);
+  // Make renderer
+  const renderer = new THREE.WebGLRenderer({
+    canvas: document.querySelector("canvas"),
+  });
 
-
-  const scene = new THREE.Scene();
-
-  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-  camera.position.set(0, 0, 1000);
-
+  // Window Resize
   const onWindowResize = () => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-  
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(width, height);
-  
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
   };
+  onWindowResize();
   window.addEventListener("resize", onWindowResize, false);
 
-  onWindowResize();
+  // const composer = new EffectComposer(renderer);
 
-  const geometry = new THREE.BoxGeometry(250, 250, 250);
-  const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-  const box = new THREE.Mesh(geometry, material);
-  box.position.z = -5;
-  scene.add(box);
+  let gui = new dat.GUI({ name: "my gui" });
+  const params = {
+    sceneNo: 0,
+    fullScreen: false,
+  };
 
-  scene.add(new Donuts());
+  let scenes = [];
+  // SET SOME SCENES!!!!
+  scenes.push(new VideoTexture(gui));
+  scenes.push(new Raycaster());
+  scenes.push(new PostProcess());
 
-  // 平行光源を生成
-  const light = new THREE.DirectionalLight(0xffffff);
-  light.position.set(1, 1, 1);
-  scene.add(light);
+  const ppc = new PostProcessController(renderer, gui);
 
-  const group = new THREE.Group();
-  scene.add(group);
-  const geo = new THREE.BoxBufferGeometry(50, 50, 50);
-  const mat = new THREE.MeshStandardMaterial();
+  gui
+    .add(params, "sceneNo", [...Array(scenes.length).keys()])
+    .onFinishChange(() => {
+      ppc.setScene(scenes[params.sceneNo])
+      ppc.composerReset();
+    });
+  gui.add(params, "fullScreen").onChange(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  });
 
-  for (let i = 0; i < 1000; i++) {
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.x = (Math.random() - 0.5) * 2000;
-    mesh.position.y = (Math.random() - 0.5) * 2000;
-    mesh.position.z = (Math.random() - 0.5) * 2000;
-    mesh.rotation.x = Math.random() * 2 * Math.PI;
-    mesh.rotation.y = Math.random() * 2 * Math.PI;
-    mesh.rotation.z = Math.random() * 2 * Math.PI;
-    group.add(mesh);
-  }
-
-  scene.fog = new THREE.Fog(0x000000, 50, 2000);
 
   const tick = (): void => {
     requestAnimationFrame(tick);
-
-    box.rotation.x += 0.05;
-    box.rotation.y += 0.05;
-
-    renderer.render(scene, camera);
+    scenes[params.sceneNo].update();
+    ppc.composer.render();
   };
   tick();
 });
