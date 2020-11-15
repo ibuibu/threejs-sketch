@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import Stats from "three/examples/jsm/libs/stats.module";
 import VideoTexture from "./scenes/VideoTexture";
 import Raycaster from "./scenes/RayCaster";
 import Balls from "./scenes/Balls";
@@ -21,10 +22,14 @@ window.addEventListener("DOMContentLoaded", () => {
   onWindowResize();
   window.addEventListener("resize", onWindowResize, false);
 
+  const stats = Stats();
+  document.body.appendChild(stats.dom);
+
   let gui = new dat.GUI({ name: "my gui" });
   const params = {
     sceneNo: 0,
     fullScreen: false,
+    stats: true,
   };
 
   let scenes = [];
@@ -46,6 +51,13 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+  gui.add(params, "stats").onChange(() => {
+    if (params.stats) {
+      stats.dom.style.display = "block";
+    } else {
+      stats.dom.style.display = "none";
+    }
+  });
   gui
     .add(params, "sceneNo", [...Array(scenes.length).keys()])
     .onFinishChange(() => {
@@ -62,8 +74,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const tick = (): void => {
     requestAnimationFrame(tick);
+    stats.begin();
     scenes[params.sceneNo].update();
     ppc.composer.render();
+    stats.end();
   };
   tick();
 });
