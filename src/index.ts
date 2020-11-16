@@ -4,7 +4,7 @@ import VideoTexture from "./scenes/VideoTexture";
 import Raycaster from "./scenes/RayCaster";
 import Balls from "./scenes/Balls";
 import PostProcessController from "./utils/PostProcessController";
-import * as dat from "dat.gui";
+import { GUI } from "three/examples/jsm/libs/dat.gui.module.js"
 
 declare var window: Window;
 
@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const stats = Stats();
   document.body.appendChild(stats.dom);
 
-  let gui = new dat.GUI({ name: "my gui" });
+  let gui = new GUI({ name: "my gui" });
   const params = {
     sceneNo: 0,
     fullScreen: false,

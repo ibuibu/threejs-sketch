@@ -1,16 +1,16 @@
 import * as THREE from "three";
 import SceneBase from "./SceneBase";
-import * as dat from "dat.gui";
+import { GUI } from "three/examples/jsm/libs/dat.gui.module.js"
 
 declare let window: Window;
 
 class VideoTexture extends SceneBase{
-  public gui: dat.GUI;
-  public _folder: dat.GUI;
+  public gui: GUI;
+  public _folder: GUI;
   private _box: any;
   private _timer: number = 0;
 
-  constructor(gui: dat.GUI) {
+  constructor(gui: GUI) {
     super(gui);
     this.gui = gui;
     this._init();

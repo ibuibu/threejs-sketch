@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import * as dat from "dat.gui";
+import { GUI } from "three/examples/jsm/libs/dat.gui.module.js"
 import SceneBase from '../scenes/SceneBase'
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
@@ -10,12 +10,12 @@ import { Pass } from "three/examples/jsm/postprocessing/Pass";
 type PassController = {
   pass: Pass;
   isEnabled: boolean;
-  folder: dat.GUI; 
+  folder: GUI; 
 };
 
 class PostProcessController {
   public composer: EffectComposer;
-  private _gui: dat.GUI;
+  private _gui: GUI;
   private _passControllers: PassController[] = [];
   private _renderer: THREE.WebGLRenderer;
   private _scene: SceneBase;
