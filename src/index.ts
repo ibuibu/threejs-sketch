@@ -3,6 +3,7 @@ import Stats from "three/examples/jsm/libs/stats.module";
 import VideoTexture from "./scenes/VideoTexture";
 import Raycaster from "./scenes/RayCaster";
 import Balls from "./scenes/Balls";
+import ShaderPlane from "./scenes/ShaderPlane";
 import PostProcessController from "./utils/PostProcessController";
 import { GUI } from "three/examples/jsm/libs/dat.gui.module.js"
 
@@ -37,6 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
   scenes.push(new VideoTexture(gui));
   scenes.push(new Raycaster(gui));
   scenes.push(new Balls(gui));
+  scenes.push(new ShaderPlane(gui));
 
   const ppc = new PostProcessController(renderer, gui);
   ppc.setScene(scenes[params.sceneNo]);
